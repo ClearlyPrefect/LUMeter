@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1116" />
+  <title>LuMeter</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-paused="false">
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">LU</span>
+        <span class="brand-name">Meter</span>
+        <span class="brand-sub">EBU R128, Stereo</span>
+      </div>
+      <div class="controls">
+        <label class="field">
+          <span class="field-label">Eingang</span>
+          <select id="device"></select>
+        </label>
+        <button id="start" class="btn btn-primary" type="button">Start</button>
+        <button id="pause" class="btn" type="button" disabled>Pause</button>
+        <button id="reset" class="btn" type="button">Zuruecksetzen</button>
+      </div>
+    </header>
+
+    <section class="refbar" aria-label="Referenz">
+      <label class="field field-inline">
+        <span class="field-label">Referenz (0 LU)</span>
+        <input id="ref" type="number" step="0.5" min="-20" max="30" inputmode="decimal" />
+      </label>
+      <div class="presets" role="group" aria-label="Referenz-Vorgaben">
+        <button class="chip" type="button" data-ref="0">R128 −23</button>
+        <button class="chip" type="button" data-ref="5">−18</button>
+        <button class="chip" type="button" data-ref="9">K-14 −14</button>
+      </div>
+      <span id="ref-lufs" class="ref-lufs"></span>
+    </section>
+
+    <p id="status" class="status" data-kind="" role="status">Bereit.</p>
+
+    <section class="stage">
+      <div class="meter">
+        <div class="meter-scale" aria-hidden="true">
+          <span style="bottom:100%">+9</span>
+          <span style="bottom:66.667%">0</span>
+          <span style="bottom:44.444%">−6</span>
+          <span style="bottom:22.222%">−12</span>
+          <span style="bottom:0%">−18</span>
+        </div>
+        <div class="meter-track">
+          <div id="bar-target" class="meter-target"></div>
+          <div id="bar-fill" class="meter-fill" data-zone="low"></div>
+        </div>
+        <div class="meter-caption">Momentary</div>
+      </div>
+
+      <div class="readouts">
+        <div class="readout readout-hero">
+          <span class="r-label">Integrated <span id="i-lufs" class="r-aux"></span></span>
+          <span class="r-value"><span id="i-val">—</span><i>LU</i></span>
+        </div>
+        <div class="readout">
+          <span class="r-label">Momentary</span>
+          <span class="r-value"><span id="m-val">—</span><i>LU</i></span>
+        </div>
+        <div class="readout">
+          <span class="r-label">Short-term</span>
+          <span class="r-value"><span id="s-val">—</span><i>LU</i></span>
+        </div>
+        <div class="readout">
+          <span class="r-label">Max Momentary</span>
+          <span class="r-value"><span id="mmax-val">—</span><i>LU</i></span>
+        </div>
+        <div class="readout">
+          <span class="r-label">Max Short-term</span>
+          <span class="r-value"><span id="smax-val">—</span><i>LU</i></span>
+        </div>
+        <div class="readout" id="tp-card" data-over="false">
+          <span class="r-label">True Peak</span>
+          <span class="r-value"><span id="tp-val">—</span><i>dBTP</i></span>
+        </div>
+        <div class="readout" id="peak-card" data-over="false">
+          <span class="r-label">Sample Peak</span>
+          <span class="r-value"><span id="peak-val">—</span><i>dBFS</i></span>
+        </div>
+        <div class="readout">
+          <span class="r-label">Loudness Range</span>
+          <span class="r-value"><span id="lra-val">—</span><i>LU</i></span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      ITU-R BS.1770-4: K-Weighting, Gating, True Peak 4× oversampled. Peaks halten bis zum Zuruecksetzen.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
